@@ -14,3 +14,9 @@
 	Goal: adds permission to access the lambda layers, for the customer aws account id. 
 	
 	Note that the profile is the profile the person running the script has, and is to ensure that the person running the tool has the right privileges to run the tool. 
+
+
+## Requirements
+tox
+boto3
+jinja2
