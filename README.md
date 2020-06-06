@@ -14,3 +14,24 @@
 	Goal: adds permission to access the lambda layers, for the customer aws account id. 
 	
 	Note that the profile is the profile the person running the script has, and is to ensure that the person running the tool has the right privileges to run the tool. 
+
+## TO DO
+* Error management:
+	- if the profile does not have the correct permissions
+	- how to overwrite a policy if it exists?
+* split up in modules 
+* add an update/overwrite flag if you want to overwrite a policy
+
+
+## Learned
+* This book: https://pythonbooks.org/the-hitchhikers-guide-to-python-best-practices-for-development/
+* Repo structure https://docs.python-guide.org/writing/structure/
+* Logging https://docs.python-guide.org/writing/logging/
+* Parsing cli argurments Argparse
+* Working with api responses: https://sdbrett.com/BrettsITBlog/2017/01/python-parsing-values-from-api-response/
+
+## Requirements
+I learned to:
+* use pipreqs: `pipreqs .`
+* boto3
+* jinja2
