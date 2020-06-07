@@ -6,9 +6,9 @@ import boto3
 import logging
 import os
 import sys
+import re
 from jinja2 import Template
 from botocore.exceptions import ClientError
-import pack.LatestLayer
 
 
 # You can use cross-account roles to give accounts that you trust access to Lambda actions and resources. If you just want to grant permission to invoke a function or use a layer, use resource-based policies instead.
@@ -72,37 +72,11 @@ def create_policy(json_rendered, user):
         print(error)
         sys.exit()
 
-        # If error because policy already exists, then try with a different name
-        # Else Exit
-        # Add abort or exit statement on error
-
 
 def attach_policy(user_name, policy):
     # Policy Resources
     iam_client = boto3.client('iam')
     iam_client.attach_user_policy(UserName=user_name, PolicyArn=policy)
-
-
-# Write a test to ensure this returns all of the layers
-# Return a class dict
-# layer_versions {
-#       'python3.6' : {
-#              [{
-#                   'LayerVersionArn': 'arn:aws:lambda:us-east-1:193632271191:layer:pwnlib37:2',
-#                   'Version': 2,
-#                   'Description': 'v2',
-#                   'CreatedDate': '2020-06-04T16:25:36.878+0000',
-#                   'CompatibleRuntimes': ['python3.7']
-#              },
-#              {
-#                   'LayerVersionArn': 'arn:aws:lambda:us-east-1:193632271191:layer:pwnlib37:1',
-#                   'Version': 1,
-#                   'CreatedDate': '2020-06-04T16:23:14.221+0000',
-#                   'CompatibleRuntimes': ['python3.7']
-#              }
-#           ]
-#       }
-# }
 
 
 def list_layer_versions():
@@ -120,24 +94,6 @@ def list_layer_versions():
     return layer_versions
 
 
-def filter_versions(layer_versions):
-    recent_versions = {}
-    arns_per_runtime = {}
-    for runtime in runtimes:
-        arns_per_runtime.update({runtime: [{}]})
-        # Counts number of layer_versions per runtime
-        items_length = len(layer_versions[runtime]['LayerVersions'])
-        breakpoint()
-        for i in list(range(items_length)):
-            diction = arns_per_runtime.getattr(runtime)
-            diction[i].update(
-                layer_versions[runtime]['LayerVersions'][i]['LayerVersionArn'])
-
-            breakpoint
-            # layer_versions['python3.6']['LayerVersions'][0]['Version']
-    return arns_per_runtime
-
-
 def latestLayers():
     client = boto3.client('lambda')
     response = client.list_layers()
@@ -150,8 +106,12 @@ def latestLayers():
     versions = client.list_layer_versions
 
     latest = []
+
     for i in list(range(len(layers))):
-        latest.append(layers[i]['LatestMatchingVersion']['LayerVersionArn'])
+        if re.findall(r'python', str(layers[i]['LatestMatchingVersion']['CompatibleRuntimes'])):
+            latest.append(layers[i]['LatestMatchingVersion']
+                          ['LayerVersionArn'])
+    breakpoint()
     return latest
 
 

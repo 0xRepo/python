@@ -19,8 +19,11 @@
 * Error management:
 	- if the profile does not have the correct permissions
 	- how to overwrite a policy if it exists?
-* split up in modules 
+* split up in modules or packages? 
 * add an update/overwrite flag if you want to overwrite a policy
+* add test permission flag?
+* Add color to error messages
+* ensure that we do not add duplicate lambdas
 
 
 ## Learned
@@ -29,6 +32,11 @@
 * Logging https://docs.python-guide.org/writing/logging/
 * Parsing cli argurments Argparse
 * Working with api responses: https://sdbrett.com/BrettsITBlog/2017/01/python-parsing-values-from-api-response/
+
+# Test cases
+* layers with several python runtimes leading to duplicates in latest_versions
+* if the iam policy already exists
+* if the profile does not have permissions to (a) create/modify iam policy, (b) list lambda layers, list layer versions
 
 ## Requirements
 I learned to:
